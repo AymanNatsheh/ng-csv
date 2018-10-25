@@ -90,6 +90,17 @@ angular.module('ngCsv.directives').
       ],
       link: function (scope, element, attrs) {
         function doClick() {
+
+          var safari, blob;
+          //To findout safari browser
+          if (ua.indexOf('safari') != -1) {
+            if (ua.indexOf('chrome') > -1) {
+              safari = false; //chrome
+            } else {
+              safari = true; // Safari
+            }
+          }
+
           var charset = scope.charset || "utf-8";
           var blob = new Blob([scope.csv], {
             type: "text/csv;charset="+ charset + ";"
@@ -97,6 +108,10 @@ angular.module('ngCsv.directives').
 
           if (window.navigator.msSaveOrOpenBlob) {
             navigator.msSaveBlob(blob, scope.getFilename());
+          } else if(safari){
+            window.open('data:attachment/csv;filename='+scope.getFilename()+';charset=utf-8,' + encodeURI(scope.csv), "csvWindow");
+            window.close();
+
           } else {
 
             var downloadContainer = angular.element('<div data-tap-disabled="true"><a></a></div>');
