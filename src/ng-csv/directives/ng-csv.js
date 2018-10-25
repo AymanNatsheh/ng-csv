@@ -109,8 +109,10 @@ angular.module('ngCsv.directives').
           if (window.navigator.msSaveOrOpenBlob) {
             navigator.msSaveBlob(blob, scope.getFilename());
           } else if(safari){
+            console.log("SAFARI DETECTED");
             window.open('data:attachment/csv;filename='+scope.getFilename()+';charset=utf-8,' + encodeURI(scope.csv), "csvWindow");
             window.close();
+            onsole.log("SAFARI DETECTED2");
 
           } else {
 
